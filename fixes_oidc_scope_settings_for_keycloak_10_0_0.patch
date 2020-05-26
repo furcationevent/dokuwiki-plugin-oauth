@@ -1,0 +1,45 @@
+Index: classes/KeycloakAdapter.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- classes/KeycloakAdapter.php	(revision 75cf691c8aba498533e68237ef3fae066aa62d42)
++++ classes/KeycloakAdapter.php	(date 1590501832019)
+@@ -2,6 +2,8 @@
+ 
+ namespace OAuth\Plugin;
+ 
++use OAuth\OAuth2\Service\Keycloak;
++
+ /**
+  * Class KeycloakAdapter
+  *
+@@ -39,6 +41,10 @@
+         return $data;
+     }
+ 
++    public function getScope() {
++        return array(Keycloak::SCOPE_OPENID, Keycloak::SCOPE_PROFILE, Keycloak::SCOPE_EMAIL);
++    }
++
+     /**
+      * We make use of the Keycloak oauth2 service (slightly abstracted from "Generic") as defined in
+      * phpoauthlib/src/OAuth/OAuth2/Service/Keycloak.php
+Index: phpoauthlib/src/OAuth/OAuth2/Service/Keycloak.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- phpoauthlib/src/OAuth/OAuth2/Service/Keycloak.php	(revision 75cf691c8aba498533e68237ef3fae066aa62d42)
++++ phpoauthlib/src/OAuth/OAuth2/Service/Keycloak.php	(date 1590501832027)
+@@ -13,6 +13,10 @@
+ 
+ class Keycloak extends Generic
+ {
++    const SCOPE_OPENID           = 'openid';
++    const SCOPE_PROFILE          = 'profile';
++    const SCOPE_EMAIL            = 'email';
++
+     protected function getAuthorizationMethod()
+     {
+         return static::AUTHORIZATION_METHOD_HEADER_BEARER;
