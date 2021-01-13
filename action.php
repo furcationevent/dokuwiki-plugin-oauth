@@ -39,12 +39,7 @@ class action_plugin_oauth extends DokuWiki_Action_Plugin {
      * @return void
      */
     public function handle_start(Doku_Event &$event, $param) {
-        global $ID;
-        if (isset($_SESSION[DOKU_COOKIE]['oauth-logout'])){
-            unset($_SESSION[DOKU_COOKIE]['oauth-logout']);
-            send_redirect(wl($ID));
-            return;
-        }
+
         if (isset($_SESSION[DOKU_COOKIE]['oauth-done']['do']) || !empty($_SESSION[DOKU_COOKIE]['oauth-done']['rev'])){
             $this->restoreSessionEnvironment();
             return;
@@ -243,12 +238,6 @@ class action_plugin_oauth extends DokuWiki_Action_Plugin {
         if ($singleService == '') return true;
 
         $lang['btn_login'] = $this->getLang('loginButton') . $singleService;
-
-        if($event->data == 'logout' && $singleService != '') {
-            session_start();
-            $_SESSION[DOKU_COOKIE]['oauth-logout'] = 'logout';
-            session_write_close();
-        }
 
         if($event->data != 'login') return true;
 
